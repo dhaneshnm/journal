@@ -34,3 +34,42 @@ export const deleteEntry = (id: string) => {
     entries: store.entries.filter(e => e.id !== id)
   }));
 };
+
+export const getTagsMap = () => {
+  let tagMap: { [key: string]: JournalEntry[] } = {};
+  
+  journal.subscribe(store => {
+    // Collect all tags from all entries and map them to their entries
+    store.entries.forEach(entry => {
+      if (entry.tags && Array.isArray(entry.tags)) {
+        entry.tags.forEach(tag => {
+          if (!tagMap[tag]) {
+            tagMap[tag] = [];
+          }
+          tagMap[tag].push(entry);
+        });
+      }
+    });
+  })();
+  
+  return tagMap;
+};
+
+export const getAllTags = () => {
+  let allTags: string[] = [];
+  
+  journal.subscribe(store => {
+    // Collect all tags from all entries
+    store.entries.forEach(entry => {
+      if (entry.tags && Array.isArray(entry.tags)) {
+        entry.tags.forEach(tag => {
+          if (!allTags.includes(tag)) {
+            allTags.push(tag);
+          }
+        });
+      }
+    });
+  })();
+  
+  return allTags.sort();
+};

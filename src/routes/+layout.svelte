@@ -9,6 +9,8 @@
       <nav>
         <a href="/">Home</a>
         <a href="/new">New Entry</a>
+        <a href="/tag">Tags</a>
+
       </nav>
     </div>
   </header>
