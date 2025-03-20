@@ -62,32 +62,4 @@
   </div>
 {/if}
 
-<style>
-  article {
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-  }
-  
-  header {
-    margin-bottom: 2rem;
-  }
-  
-  .meta {
-    margin: 1rem;
-  }
 
-  .tag {
-    margin: 1rem;
-  }
-  
-  .content {
-    margin: 2rem;
-    white-space: pre-line;
-  }
-  
-  time {
-    margin-right: 1rem;
-  }
-</style>
