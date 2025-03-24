@@ -7,16 +7,25 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "db:seed": "npx ts-node-esm prisma/seed.ts"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/kit": "^1.20.4",
+    "@types/better-sqlite3": "^7.6.12",
+    "prisma": "^6.5.0",
     "svelte": "^4.0.5",
     "svelte-check": "^3.4.3",
     "tslib": "^2.4.1",
     "typescript": "^5.0.0",
     "vite": "^4.4.2"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@ngneat/falso": "^7.3.0",
+    "@prisma/client": "^6.5.0",
+    "better-sqlite3": "^11.9.1",
+    "drizzle-orm": "^0.41.0"
+  }
 }

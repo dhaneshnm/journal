@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store';
 import type { JournalEntry, JournalStore } from './types';
-
 // Initialize from localStorage if available
 const storedJournal = typeof localStorage !== 'undefined' 
   ? JSON.parse(localStorage.getItem('journal') || '{"entries":[]}') 
@@ -14,6 +13,7 @@ if (typeof localStorage !== 'undefined') {
     localStorage.setItem('journal', JSON.stringify(value));
   });
 }
+
 
 export const addEntry = (entry: Omit<JournalEntry, 'id'>) => {
   const id = crypto.randomUUID();
