@@ -1,27 +1,17 @@
 <script lang="ts">
-    import { getAllTags, getTagsMap } from '$lib/store';
-    import { onMount } from 'svelte';
-
-    let tagsMap = getTagsMap();
-    let tags: string[] = getAllTags();
-    
-    onMount(() => {
-        // Refresh entry from store
-        tags = getAllTags();
-    
-    });
-
+    import type { PageData } from './$types'
+    export let data: PageData;
 </script>
 <section>
     <h2>Tags</h2>
     <div class="entry-list">
-        {#if tags}
-            {#each tags as tag}
+        {#if data.tags.length > 0 }
+            {#each data.tags as tag}
                 <div class="card entry-card">
-                    <h3>{tag}</h3>
-                    {#each tagsMap[tag] as entry}
+                    <h3>{tag.name}</h3>
+                    {#each tag.journalEntries as entry}
                         <span>
-                            <a href="/entry/{entry.id}" target="_blank">{entry.title}</a>
+                            <a href="/entry/{entry.journalEntry.id}" target="_blank">{entry.journalEntry.title}</a>
                         </span>
                     {/each}
                 </div>

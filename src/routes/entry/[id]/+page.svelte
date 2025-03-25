@@ -1,16 +1,14 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { journal, deleteEntry } from '$lib/store';
+  import { deleteEntry } from '$lib/store';
   import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
-  
+ 
+  import type { PageData } from './$types'
+
+  export let data: PageData;
+
   const id = $page.params.id;
-  let entry = $journal.entries.find(e => e.id === id);
-  
-  onMount(() => {
-    // Refresh entry from store
-    entry = $journal.entries.find(e => e.id === id);
-  });
+  let entry = data.entry;
   
   function handleDelete() {
     if (confirm('Are you sure you want to delete this entry?')) {
@@ -29,16 +27,16 @@
     <header>
       <h2>{entry.title}</h2>
       <div class="meta">
-        <time datetime={entry.date}>{new Date(entry.date).toLocaleString()}</time>
+        <time datetime={entry.updatedAt.toDateString()}>{entry.updatedAt.toDateString()}</time>
         {#if entry.mood}
-          <span class="mood">Mood: {entry.mood}</span>
+          <span class="mood">Mood: {entry.mood.name}</span>
         {/if}
       </div>
       
       {#if entry.tags && entry.tags.length > 0}
         <div class="tags">
           {#each entry.tags as tag}
-            <span class="tag">{tag}</span>
+            <span class="tag">{tag.tag.name}</span>
           {/each}
         </div>
       {/if}

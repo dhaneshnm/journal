@@ -11,6 +11,8 @@
   let content = '';
   let mood = '';
   let tagsInput = '';
+
+ 
   
   const moods = ['Happy', 'Sad', 'Anxious', 'Excited', 'Calm', 'Frustrated', 'Grateful'];
   

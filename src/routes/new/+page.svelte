@@ -1,32 +1,14 @@
 <script lang="ts">
-  import { addEntry } from '$lib/store';
-  import { goto } from '$app/navigation';
+  import type { PageData } from './$types';
+  
+  export let data: PageData;
   
   let title = '';
   let content = '';
-  let mood = '';
+  let moodId = '';
   let tagsInput = '';
   
-  const moods = ['Happy', 'Sad', 'Anxious', 'Excited', 'Calm', 'Frustrated', 'Grateful'];
-  
-  function handleSubmit() {
-    if (!title || !content) return;
-    
-    const tags = tagsInput.split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0);
-    
-    const newEntry = {
-      title,
-      content,
-      date: new Date().toISOString(),
-      mood: mood || undefined,
-      tags: tags.length > 0 ? tags : undefined
-    };
-    
-    const id = addEntry(newEntry);
-    goto(`/entry/${id}`);
-  }
+
 </script>
 
 <svelte:head>
@@ -36,11 +18,12 @@
 <section>
   <h2>Create New Journal Entry</h2>
   
-  <form on:submit|preventDefault={handleSubmit}>
+  <form method="POST">
     <div>
       <label for="title">Title</label>
       <input 
         id="title"
+        name="title"
         type="text" 
         bind:value={title} 
         placeholder="Give your entry a title"
@@ -52,6 +35,7 @@
       <label for="content">Content</label>
       <textarea 
         id="content"
+        name="content"
         bind:value={content} 
         placeholder="Write your thoughts here..."
         required
@@ -59,11 +43,11 @@
     </div>
     
     <div>
-      <label for="mood">Mood (optional)</label>
-      <select id="mood" bind:value={mood}>
+      <label for="moodId">Mood</label>
+      <select id="moodId" name="moodId" bind:value={moodId} required>
         <option value="">Select mood</option>
-        {#each moods as moodOption}
-          <option value={moodOption}>{moodOption}</option>
+        {#each data.moods as mood}
+          <option value={mood.id}>{mood.name}</option>
         {/each}
       </select>
     </div>
@@ -72,6 +56,7 @@
       <label for="tags">Tags (comma separated, optional)</label>
       <input 
         id="tags"
+        name="tags"
         type="text" 
         bind:value={tagsInput} 
         placeholder="personal, work, ideas"
