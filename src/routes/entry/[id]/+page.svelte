@@ -1,6 +1,5 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { deleteEntry } from '$lib/store';
   import { goto } from '$app/navigation';
  
   import type { PageData } from './$types'
@@ -12,8 +11,24 @@
   
   function handleDelete() {
     if (confirm('Are you sure you want to delete this entry?')) {
-      deleteEntry(id);
-      goto('/');
+      console.log("here ..");
+      fetch(`/entry/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          _method: 'delete'
+        })
+      }).then(response => {
+        if (response.ok) {
+          goto('/');
+        } else {
+          console.error('Failed to delete entry');
+        }
+      }).catch(error => {
+        console.error('Error:', error);
+      });
     }
   }
 </script>
@@ -48,7 +63,7 @@
     
     <div class="button-group">
       <a href="/entry/{id}/edit"><button>Edit</button></a>
-      <button class="danger" on:click={handleDelete}>Delete</button>
+      <button class="danger" on:click={ handleDelete}>Delete</button>
       <a href="/"><button class="secondary">Back</button></a>
     </div>
   </article>

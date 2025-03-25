@@ -52,7 +52,7 @@ export const actions = {
       });
 
 
-      throw redirect(303, `/entry/${entry.id}`);
+      throw redirect(307, `/`);
     } catch (error) {
       console.log(error);  
       return fail(500, { error: 'Failed to create entry' });
