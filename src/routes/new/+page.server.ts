@@ -57,6 +57,6 @@ export const actions = {
         }
   
         // Make sure the path matches your actual route structure
-        redirect(303, '/tags');
+        throw redirect(303, `entry/${entry.id}`);
     }
   } satisfies Actions;
