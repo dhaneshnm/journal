@@ -15,6 +15,7 @@ export const actions = {
       const title = data.get("title");
       const content = data.get("content");
       const moodId = Number(data.get('moodId'));
+      console.log(data);
       const tags = data.get('tags')?.toString().split(',')
         .map(tag => tag.trim())
         .filter(tag => tag.length > 0);

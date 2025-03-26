@@ -8,6 +8,7 @@
 
   const id = $page.params.id;
   let entry = data.entry;
+
   
   function handleDelete() {
     if (confirm('Are you sure you want to delete this entry?')) {

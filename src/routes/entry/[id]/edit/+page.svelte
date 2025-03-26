@@ -1,51 +1,27 @@
 <script lang="ts">
+  import type { PageData } from './$types';
+  
   import { page } from '$app/stores';
-  import { journal, updateEntry } from '$lib/store';
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
+
+
+
   
+
+  export let data: PageData;
   const id = $page.params.id;
-  let entry = $journal.entries.find(e => e.id === id);
+  let entry = data.entry;
   
-  let title = '';
-  let content = '';
-  let mood = '';
+  let title = entry?.title;
+  let content = entry?.content;
+  let mood = entry?.mood.id;
   let tagsInput = '';
 
  
   
-  const moods = ['Happy', 'Sad', 'Anxious', 'Excited', 'Calm', 'Frustrated', 'Grateful'];
+  const moods = data.moods;
   
-  onMount(() => {
-    // Refresh entry from store
-    entry = $journal.entries.find(e => e.id === id);
-    
-    if (entry) {
-      title = entry.title;
-      content = entry.content;
-      mood = entry.mood || '';
-      tagsInput = entry.tags ? entry.tags.join(', ') : '';
-    }
-  });
   
-  function handleSubmit() {
-    if (!entry || !title || !content) return;
-    
-    const tags = tagsInput.split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0);
-    
-    const updatedEntry = {
-      ...entry,
-      title,
-      content,
-      mood: mood || undefined,
-      tags: tags.length > 0 ? tags : undefined
-    };
-    
-    updateEntry(updatedEntry);
-    goto(`/entry/${id}`);
-  }
+
 </script>
 
 <svelte:head>
@@ -56,11 +32,12 @@
   <section>
     <h2>Edit Journal Entry</h2>
     
-    <form on:submit|preventDefault={handleSubmit}>
+    <form method="POST">
       <div>
         <label for="title">Title</label>
         <input 
           id="title"
+          name="title"
           type="text" 
           bind:value={title} 
           placeholder="Give your entry a title"
@@ -72,6 +49,7 @@
         <label for="content">Content</label>
         <textarea 
           id="content"
+          name="content"
           bind:value={content} 
           placeholder="Write your thoughts here..."
           required
@@ -79,11 +57,11 @@
       </div>
       
       <div>
-        <label for="mood">Mood (optional)</label>
-        <select id="mood" bind:value={mood}>
+        <label for="moodId">Mood (optional)</label>
+        <select id="moodId" name="moodId" value={mood} >
           <option value="">Select mood</option>
           {#each moods as moodOption}
-            <option value={moodOption}>{moodOption}</option>
+            <option value={moodOption.id} >{moodOption.name}</option>
           {/each}
         </select>
       </div>
@@ -92,6 +70,7 @@
         <label for="tags">Tags (comma separated, optional)</label>
         <input 
           id="tags"
+          name="tags"
           type="text" 
           bind:value={tagsInput} 
           placeholder="personal, work, ideas"

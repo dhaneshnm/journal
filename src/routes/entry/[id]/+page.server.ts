@@ -29,6 +29,7 @@ export const actions = {
 };
 
 export const load = (async ({ params }) => {
+
     // 2.
     const entry  = await prisma.journalEntry.findUnique({
         where: { id: Number(params.id) },
