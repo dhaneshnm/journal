@@ -68,8 +68,15 @@ export const actions = {
             });
   
             // Create the tag-entry relationship
-            await prisma.tagOnEntries.create({
-              data: {
+            await prisma.tagOnEntries.upsert({
+              where: {
+                tagId_journalEntryId: {
+                  tagId: tag.id,
+                  journalEntryId: entry.id
+                }
+              },
+              update: {},
+              create: {
                 journalEntryId: entry.id,
                 tagId: tag.id
               }

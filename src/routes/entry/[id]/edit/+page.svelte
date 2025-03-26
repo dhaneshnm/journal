@@ -14,7 +14,7 @@
   let title = entry?.title;
   let content = entry?.content;
   let mood = entry?.mood.id;
-  let tagsInput = '';
+  let tagsInput = entry?.tags.map( t => t.tag.name);
 
  
   
