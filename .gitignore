@@ -3,3 +3,4 @@ node_modules
 package-lock.json
 .journal.db
 .env
+prisma/dev.db
