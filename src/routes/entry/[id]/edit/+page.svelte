@@ -13,8 +13,10 @@
   
   let title = entry?.title;
   let content = entry?.content;
-  let mood = entry?.mood.id;
+  let moodId = entry?.mood.id;
   let tagsInput = entry?.tags.map( t => t.tag.name);
+
+  $: wordCount = content ? content.split(/\s+/).filter(word => word.length > 0).length : 0;
 
  
   
@@ -28,7 +30,7 @@
   <title>Edit Journal Entry</title>
 </svelte:head>
 
-{#if entry}
+{#if entry && entry.id}
   <section>
     <h2>Edit Journal Entry</h2>
     
@@ -47,6 +49,7 @@
       
       <div>
         <label for="content">Content</label>
+        {wordCount} words.
         <textarea 
           id="content"
           name="content"
@@ -58,7 +61,7 @@
       
       <div>
         <label for="moodId">Mood (optional)</label>
-        <select id="moodId" name="moodId" value={mood} >
+        <select id="moodId" name="moodId" value={moodId} >
           <option value="">Select mood</option>
           {#each moods as moodOption}
             <option value={moodOption.id} >{moodOption.name}</option>
