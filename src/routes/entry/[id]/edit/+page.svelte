@@ -3,16 +3,15 @@
   import { page } from '$app/state'; 
 
 
-  export let data: PageData;
+  const { data } = $props<{ data: PageData }>();
   const id = page.params.id;
   let entry = data.entry;
   
-  let title = entry?.title;
-  let content = entry?.content;
-  let moodId = entry?.mood.id;
-  let tagsInput = entry?.tags.map( t => t.tag.name);
-
-  $: wordCount = content ? content.split(/\s+/).filter(word => word.length > 0).length : 0;
+  let title = $state(entry?.title);
+  let content = $state(entry?.content);
+  let moodId = $state(entry?.mood.id);
+  let tagsInput = $state(entry?.tags.map( t => t.tag.name));
+  let wordCount = $derived( content ? content.split(/\s+/).filter(word => word.length > 0).length : 0)
 
  
   

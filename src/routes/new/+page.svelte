@@ -1,12 +1,14 @@
 <script lang="ts">
   import type { PageData } from './$types';
   
-  export let data: PageData;
+  const { data } = $props<{ data: PageData }>();
   
-  let title = '';
-  let content = '';
-  let moodId = '';
-  let tagsInput = '';
+  let title = $state('');
+  let content =   $state('');
+  let moodId =   $state('');
+  let tagsInput =  $state('');
+
+  let wordCount = $derived( content ? content.split(/\s+/).filter(word => word.length > 0).length : 0)
   
 
 </script>
@@ -33,6 +35,7 @@
     
     <div>
       <label for="content">Content</label>
+      {wordCount} words.
       <textarea 
         id="content"
         name="content"
