@@ -4,3 +4,4 @@ package-lock.json
 .journal.db
 .env
 prisma/dev.db
+prisma/dev.db-journal

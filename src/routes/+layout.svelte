@@ -1,5 +1,8 @@
 <script lang="ts">
   import '../app.css';
+  import { page } from "$app/stores";
+
+   let user = $page.data.session?.user;
 </script>
 
 <div class="app">
@@ -12,6 +15,13 @@
         <a href="/tag">Tags</a>
 
       </nav>
+    </div>
+    <div>
+    {#if user}
+      <p>Welcome, {user.name || user.email}!</p>
+    {:else}
+      <p>You're not logged in.</p>
+    {/if}
     </div>
   </header>
   
