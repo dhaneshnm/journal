@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { goto } from '$app/navigation';
  
   import type { PageData } from './$types'
 
   export let data: PageData;
 
-  const id = $page.params.id;
+  const id = page.params.id;
   let entry = data.entry;
 
   

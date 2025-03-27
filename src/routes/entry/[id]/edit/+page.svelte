@@ -1,14 +1,10 @@
 <script lang="ts">
   import type { PageData } from './$types';
-  
-  import { page } from '$app/stores';
+  import { page } from '$app/state'; 
 
-
-
-  
 
   export let data: PageData;
-  const id = $page.params.id;
+  const id = page.params.id;
   let entry = data.entry;
   
   let title = entry?.title;

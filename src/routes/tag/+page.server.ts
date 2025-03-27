@@ -1,6 +1,5 @@
 import prisma from "$lib/prisma";
 import type { PageServerLoad } from "../$types";
-import { page } from '$app/stores'
 import { fail, redirect } from '@sveltejs/kit';
 
 
