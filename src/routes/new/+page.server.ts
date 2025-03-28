@@ -32,6 +32,7 @@ export const actions = {
       }
   
         // First create the entry
+        
         const entry = await prisma.journalEntry.create({
           data: {
             title,
