@@ -1,8 +1,11 @@
 <script lang="ts">
   import '../app.css';
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
 
-   let user = $page.data.session?.user;
+
+   let user = page.data.session?.user;
+
+   console.log(page.data);
 </script>
 
 <div class="app">

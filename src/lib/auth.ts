@@ -3,6 +3,7 @@ import CredentialsProvider from "@auth/core/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import { compare } from "bcrypt";
+import { page } from "$app/state";
 
 const prisma = new PrismaClient();
 
@@ -26,20 +27,26 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
           where: { email: credentials.email as string },
         });
 
-        if (!user || !(await compare(credentials.password, user.password!))) {
-          throw new Error("Invalid email or password");
-        }
+        console.log(user);
+
+        // if (!user || !(await compare(credentials.password, user.password!))) {
+        //   throw new Error("Invalid email or password");
+        // }
 
         return user;
       }
     })
   ],
+  session: {
+    strategy: "jwt"
+  },
   callbacks: {
-    session: ({ session, user }) => {
-      if (session.user) {
-        session.user.id = user.id;
+    jwt: async ({ token, user }) => {
+      console.log(token, user);
+      if(user) {
+        token.sub = user.id
       }
-      return session;
+      return token;
     }
   }
 });
