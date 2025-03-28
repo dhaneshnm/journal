@@ -12,7 +12,6 @@
   
   function handleDelete() {
     if (confirm('Are you sure you want to delete this entry?')) {
-      console.log("here ..");
       fetch(`/entry/${id}`, {
         method: 'POST',
         headers: {

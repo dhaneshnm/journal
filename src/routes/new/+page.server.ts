@@ -10,12 +10,15 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-    default: async ({ request }) => {
+    default: async ({ request, locals }) => {
+      const auth = await locals.auth();  // Get the session
+      if (!auth?.user?.id) {
+        return fail(401, { error: 'Not authenticated' });
+      }
       const data = await request.formData();
       const title = data.get("title");
       const content = data.get("content");
       const moodId = Number(data.get('moodId'));
-      console.log(data);
       const tags = data.get('tags')?.toString().split(',')
         .map(tag => tag.trim())
         .filter(tag => tag.length > 0);
@@ -34,6 +37,7 @@ export const actions = {
             title,
             content,
             moodId,
+            userId: auth.user.id 
           }
         });
   

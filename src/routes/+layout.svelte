@@ -5,7 +5,6 @@
 
    let user = page.data.session?.user;
 
-   console.log(page.data);
 </script>
 
 <div class="app">
