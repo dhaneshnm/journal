@@ -18,12 +18,10 @@ async function deleteEntryWithTags(tagId: number) {
 export const actions = {
     default: async ({ url }) => {
         let id = url.searchParams.get('id');
-        console.log("here", url, id); 
         try {
             await deleteEntryWithTags(Number(id));
             throw redirect(303, '/tag');
         } catch (error) {
-            console.log(error);
             return fail(500, { error: 'Failed to delete entry' });
         }
     }

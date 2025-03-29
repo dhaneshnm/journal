@@ -14,6 +14,7 @@
     "@sveltejs/adapter-auto": "^5.0.0",
     "@sveltejs/kit": "^2.20.2",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@types/bcrypt": "^5.0.2",
     "@types/better-sqlite3": "^7.6.12",
     "prisma": "^6.5.0",
     "svelte": "^5.25.3",
@@ -24,9 +25,13 @@
   },
   "type": "module",
   "dependencies": {
+    "@auth/prisma-adapter": "^2.8.0",
+    "@auth/sveltekit": "^1.8.0",
     "@ngneat/falso": "^7.3.0",
     "@prisma/client": "^6.5.0",
+    "bcrypt": "^5.1.1",
     "better-sqlite3": "^11.9.1",
-    "drizzle-orm": "^0.41.0"
+    "drizzle-orm": "^0.41.0",
+    "sqlite3": "^5.1.7"
   }
 }

@@ -22,7 +22,6 @@ export const actions = {
             await deleteEntryWithTags(Number(params.id));
             throw redirect(303, '/');
         } catch (error) {
-            console.log(error);
             return fail(500, { error: 'Failed to delete entry' });
         }
     }

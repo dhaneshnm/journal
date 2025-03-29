@@ -37,7 +37,6 @@ export const actions = {
         .filter(tag => tag.length > 0);
   
       if (!title || !content || !moodId) {
-        console.log(title, content, moodId);
         return fail(400, { content, title, missing: true });
       }
   
