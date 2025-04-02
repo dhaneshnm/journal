@@ -20,7 +20,7 @@
 <section>
   <h2>Create New Journal Entry</h2>
   
-  <form target="_blank" method="POST">
+  <form  method="POST">
     <div>
       <label for="title">Title</label>
       <input 

@@ -12,9 +12,18 @@ export const load = (async () => {
 export const actions = {
     default: async ({ request, locals }) => {
       const auth = await locals.auth();  // Get the session
-      if (!auth?.user?.id) {
+      
+      if (!auth?.user?.email) {
+        console.log(auth?.user);
         return fail(401, { error: 'Not authenticated' });
       }
+
+      const user = await prisma.user.findUnique({
+        where: {
+         email: auth.user.email
+        }
+      });
+      console.log(user);
       const data = await request.formData();
       const title = data.get("title");
       const content = data.get("content");
@@ -32,37 +41,36 @@ export const actions = {
       }
   
         // First create the entry
-        
-        const entry = await prisma.journalEntry.create({
-          data: {
-            title,
-            content,
-            moodId,
-            userId: auth.user.id 
+        if(user) {
+          const entry = await prisma.journalEntry.create({
+            data: {
+              title,
+              content,
+              moodId,
+              userId: user.id
+            }
+          });
+    
+          // Then handle tags separately if they exist
+          if (tags && tags.length > 0) {
+            for (const tagName of tags) {
+              // Find or create tag
+              const tag = await prisma.tag.findFirst({
+                where: { name: tagName }
+              }) || await prisma.tag.create({
+                data: { name: tagName, userId: user.id }
+              });
+    
+              // Create the tag-entry relationship
+              await prisma.tagOnEntries.create({
+                data: {
+                  journalEntryId: entry.id,
+                  tagId: tag.id
+                }
+              });
+            }
           }
-        });
-  
-        // Then handle tags separately if they exist
-        if (tags && tags.length > 0) {
-          for (const tagName of tags) {
-            // Find or create tag
-            const tag = await prisma.tag.findFirst({
-              where: { name: tagName }
-            }) || await prisma.tag.create({
-              data: { name: tagName }
-            });
-  
-            // Create the tag-entry relationship
-            await prisma.tagOnEntries.create({
-              data: {
-                journalEntryId: entry.id,
-                tagId: tag.id
-              }
-            });
-          }
+          redirect(303, `entry/${entry.id}`);
         }
-  
-        // Make sure the path matches your actual route structure
-        throw redirect(303, `entry/${entry.id}`);
     }
   } satisfies Actions;
